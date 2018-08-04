@@ -11,6 +11,6 @@ public class StudentController {
     @ResponseBody
     public String index(){
 
-        return "Hello College Management System";
+        return "College Management System";
     }
 }
