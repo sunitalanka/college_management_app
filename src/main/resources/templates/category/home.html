@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+&nbsp;&nbsp;<h1 th:text="${title}">Welcome to Admin Page</h1>&nbsp;&nbsp;
+
+<nav th:replace="fragments :: navigation"></nav>
+&nbsp; <a href="/add-course">Add Course</a> &nbsp;&nbsp;|
+&nbsp; <a href="/add-student">Register Student</a> &nbsp;&nbsp;|
+&nbsp; <a href="/search">Search Student</a>&nbsp;&nbsp; |
+&nbsp; <a href="/edit">Edit Student</a>&nbsp;&nbsp; |
+&nbsp; <a href="/delete">Delete Student</a>&nbsp;&nbsp; |
+&nbsp;&nbsp; <a href="/logout">Logout</a>
+</nav>
+
+</body>
+
+</html>

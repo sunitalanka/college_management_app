@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<h1 th:text="${title}">Default Title</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<form method="post" style="max-width:600px;" th:object="${courses}">
+
+    <div class="form-group">
+        <label th:for="course_id">Course Id</label>
+        <input class="form-control" th:field="*{course_id}" />
+        <span th:errors="*{course_id}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="courseName">Course Name</label>
+        <input class="form-control" th:field="*{courseName}" />
+        <span th:errors="*{courseName}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="courseType">Type</label>
+        <input class="form-control" th:field="*{courseType}" />
+        <span th:errors="*{courseType}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="cdesc">Description</label>
+        <input class="form-control" th:field="*{cdesc}" />
+        <span th:errors="*{cdesc}" class="error"></span>
+    </div>
+
+    <div class="form-group">
+        <label th:for="duration">Duration</label>
+        <input class="form-control" th:field="*{duration}" />
+        <span th:errors="*{duration}" class="error"></span>
+    </div>
+
+    <div class="form-group">
+        <label th:for="credits">Credits</label>
+        <input class="form-control" th:field="*{credits}" />
+        <span th:errors="*{credits}"class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="fee">Fee</label>
+        <input class="form-control" th:field="*{fee}" />
+        <span th:errors="*{fee}"class="error"></span>
+    </div>
+
+    <input type="submit" value="Add Courses" />
+</form>
+
+</body>
+</html>

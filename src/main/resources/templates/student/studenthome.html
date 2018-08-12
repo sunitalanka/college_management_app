@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<h1 th:text="${title}">Default Title</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<p>"This is student home page"</p>
+
+<!--<p th:unless="${students} and ${students.size()}">no students:(</p>
+
+
+
+<table class="table">
+
+    <tr>
+        <th>Id</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Address</th>
+        <th>Year of Join</th>
+        <th>Courses</th>
+        <th>Total Grades</th>
+    </tr>
+
+    <tr th:each="student : ${students}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.firstName}"></td>
+        <td th:text="${cheese.lastName}"></td>
+        <td th:text="${student.address}"></td>
+        <td th:text="${student.year}"></td>
+        <td th:text="${student.course}"></td>
+        <td th:text="${student.grades}"></td>
+    </tr>
+    <tr>
+        <td>
+            <nav th:fragment="navigation">
+                <a href="/student">Logout</a>
+            </nav>
+        </td>
+    </tr>
+
+</table>-->
+
+</body>
+</html>
