@@ -14,9 +14,10 @@ public class StudentForm {
     @GeneratedValue
     private int id;
 
+
     @NotNull
     @Size(min=3, max=15)
-    private String student_id;
+    private String studentId;
 
 
     @NotNull
@@ -98,13 +99,14 @@ public class StudentForm {
     }
 
 
-    public String getStudent_id() {
-        return student_id;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudent_id(String student_id) {
-        this.student_id = student_id;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
+
 
 
 }

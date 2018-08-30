@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title> Default Title</title>
+</head>
+<body>
+<nav th:replace="fragments :: navigation"></nav>
+<form method="post" style="max-width:600px;" th:object="${searchStudent}" >
+    <table>
+     <div class="form-group">
+        <tr>
+        <td><label th:for="studentId">Student Id</label></td>
+   <td><input class="form-control" th:field="*{studentId}" /></td>
+    <!--<span th:errors=" " class="error"></span>-->
+     </div>
+        </tr>
+        <tr>
+    <div class="form-group">
+    <td><label th:for="course">Courses</label></td>
+        <td><input class="form-control" th:field="*{course}" />
+            <span th:errors="*{course}" class="error"></span></td>
+    </div>
+        </tr>
+        <tr>
+    <div class="form-group">
+    <td><label th:for="firstName">First Name</label></td>
+    <td><input class="form-control" th:field="*{firstName}" />
+    <span th:errors="*{firstName}" class="error"></span></td>
+    </div>
+        </tr>
+        <tr>
+    <div class="form-group">
+    <td><label th:for="lastName">Last Name</label></td>
+    <td><input class="form-control" th:field="*{lastName}" />
+    <span th:errors="*{lastName}" class="error"></span></td>
+    </div>
+        </tr>
+    </table>
+
+    <input type="submit" value="Search" />
+</form>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <h4>Search Results:</h4>
+
+
+    <p th:if="${studentList == null}">No results found!</p>
+
+    <table class="table">
+
+        <tr>
+             <th>Student Id</th>
+             <th>First name</th>
+             <th>Last Name</th>
+             <th>Course</th>
+        </tr>
+        <tr th:each="student : ${studentList}">
+
+                <td th:text="${student.studentId}"></td>
+                <td th:text="${student.firstName}"></td>
+                <td th:text="${student.lastName}"></td>
+                <td th:text="${student.course}"></td>
+
+        </tr>
+
+    </table>
+
+</body>
+</html>
