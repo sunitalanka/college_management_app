@@ -1,10 +1,7 @@
 package org.launchcode.controllers;
 
 //import org.apache.catalina.User;
-import org.launchcode.models.data.CoursesDao;
-import org.launchcode.models.data.StudentDao;
-import org.launchcode.models.data.StudentSearchRepository;
-import org.launchcode.models.data.UserDao;
+import org.launchcode.models.data.*;
 import org.launchcode.models.forms.Courses;
 import org.launchcode.models.forms.StudentForm;
 import org.launchcode.models.forms.User_Data;
@@ -34,6 +31,11 @@ public class HomeController {
 
     @Autowired
     private StudentSearchRepository ssr;
+
+    @Autowired
+    private UserDataSearchRepository udsr;
+   // private CoursesDao coursesDao;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     //@ResponseBody
     public String displayUserLogin(Model model) {
@@ -47,33 +49,32 @@ public class HomeController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String loginUser(@ModelAttribute @Valid User_Data newUserForm,
-                            Errors errors, @RequestParam String login_id, @RequestParam String userPwd, Model model) {
+                            Errors errors, @RequestParam String loginId, @RequestParam String userPwd, Model model) {
 
 
         if (errors.hasErrors()) {
             return "category/login";
         }
-
-        Iterable<User_Data> allUsers = userDao.findAll();
-        for (User_Data uf : allUsers) {
-            if (login_id.equals(uf.getLogin_id()) && userPwd.equals(uf.getUserPwd())) {
-                if (uf.getIs_admin().equals('y')) {
+        User_Data ud = udsr.findByLoginId(loginId);
+        if (ud == null) {
+        }else {
+            if (loginId.equals(ud.getLoginId()) && userPwd.equals(ud.getUserPwd())) {
+                if (ud.getIs_admin().equals('y')) {
                     model.addAttribute("title", "Welcome To Admin Page");
                     model.addAttribute(new SearchStudent());
                     return "category/home";
                 } else {
                     //model.addAttribute("title", "Welcome To Student Page");
+                    StudentForm sf= ssr.findByStudentId(ud.getLoginId());
+                    model.addAttribute("title", "Welcome To Student Page");
+                    model.addAttribute("student",sf);
                     return "student/studenthome";
                 }
-            } else {
-                // return "category/login";
-                model.addAttribute("title", "Welcome To Student Page");
-                return "student/studenthome";
             }
         }
-
-        System.out.println("redirecting login ..." + login_id);
-        return "redirect:";
+        model.addAttribute("title", "College-Management");
+        errors.rejectValue( "userPwd","","Invalid User or password");
+        return "category/login";
 
     }
 
@@ -82,6 +83,9 @@ public class HomeController {
 
         model.addAttribute("title", "Register Student");
         model.addAttribute(new StudentForm());
+        Iterable<Courses> cc = coursesDao.findAll();
+        model.addAttribute("courses",cc);
+
 
         return "category/add-student";
     }
@@ -93,11 +97,14 @@ public class HomeController {
         model.addAttribute("title", "Register Student");
 
         if (errors.hasErrors()) {
+            //model.addAttribute(new StudentForm());
+            Iterable<Courses> cc = coursesDao.findAll();
+            model.addAttribute("courses",cc);
             return "category/add-student";
         }
 
         User_Data ud = new User_Data();
-        ud.setLogin_id(newStudentForm.getStudentId());
+        ud.setLoginId(newStudentForm.getStudentId());
         ud.setFirstName(newStudentForm.getFirstName());
         ud.setLastName(newStudentForm.getLastName());
         ud.setIs_admin('n');

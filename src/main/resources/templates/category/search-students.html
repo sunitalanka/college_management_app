@@ -12,28 +12,28 @@
         <tr>
         <td><label th:for="studentId">Student Id</label></td>
    <td><input class="form-control" th:field="*{studentId}" /></td>
-    <!--<span th:errors=" " class="error"></span>-->
+          <span th:errors=" " class="error"style="color:red;"></span>
      </div>
         </tr>
         <tr>
     <div class="form-group">
     <td><label th:for="course">Courses</label></td>
         <td><input class="form-control" th:field="*{course}" />
-            <span th:errors="*{course}" class="error"></span></td>
+            <span th:errors="*{course}" class="error"style="color:red;"></span></td>
     </div>
         </tr>
         <tr>
     <div class="form-group">
     <td><label th:for="firstName">First Name</label></td>
     <td><input class="form-control" th:field="*{firstName}" />
-    <span th:errors="*{firstName}" class="error"></span></td>
+    <span th:errors="*{firstName}" class="error"style="color:red;"></span></td>
     </div>
         </tr>
         <tr>
     <div class="form-group">
     <td><label th:for="lastName">Last Name</label></td>
     <td><input class="form-control" th:field="*{lastName}" />
-    <span th:errors="*{lastName}" class="error"></span></td>
+    <span th:errors="*{lastName}" class="error"style="color:red;"></span></td>
     </div>
         </tr>
     </table>
@@ -45,7 +45,7 @@
     <h4>Search Results:</h4>
 
 
-    <p th:if="${studentList == null}">No results found!</p>
+    <!--<p th:if="${studentList == null}">No results found!</p>-->
 
     <table class="table">
 

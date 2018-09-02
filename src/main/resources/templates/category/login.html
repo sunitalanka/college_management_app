@@ -10,11 +10,11 @@
 <form method="post" style="max-width:500px;" th:object="${user_Data}">
     <div class="form-group">
         <label th:for="name">Login Id</label>
-        <input class="form-control" th:field="*{login_id}" />
-        <span th:errors="*{login_id}" class="error"></span>
+        <input class="form-control" th:field="*{loginId}" />
+        <span th:errors="*{loginId}" class="error"style="color:red;"></span>
         <lable th:for="password">Password</lable>
         <input type="password" class="form-control" th:field="*{userPwd}"/>
-        <span th:errors="*{userPwd}" class="error"></span>
+        <span th:errors="*{userPwd}" class="error"style="color:red;"></span>
     </div>
     <input type="submit" value="Login" />
 </form>

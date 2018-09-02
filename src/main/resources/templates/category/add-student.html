@@ -8,47 +8,62 @@
 
 <form method="post" style="max-width:400px;" th:object="${studentForm}">
 
-    <div class="form-group">
+   <!-- <div class="form-group">
         <label th:for="id">Id</label>
         <input class="form-control" th:field="*{id}" />
         <span th:errors="*{id}" class="error"></span>
-    </div>
+    </div>-->
     <div class="form-group">
         <label th:for="firstName">FirstName</label>
         <input class="form-control" th:field="*{firstName}" />
-        <span th:errors="*{firstName}" class="error"></span>
+        <span th:errors="*{firstName}" class="error" style="color:red;"></span>
     </div>
     <div class="form-group">
         <label th:for="lastName">LastName</label>
         <input class="form-control" th:field="*{lastName}" />
-        <span th:errors="*{lastName}" class="error"></span>
+        <span th:errors="*{lastName}" class="error" style="color:red;"></span>
     </div>
     <div class="form-group">
         <label th:for="studentId">Student Id</label>
         <input class="form-control" th:field="*{studentId}" />
-        <span th:errors="*{studentId}" class="error"></span>
+        <span th:errors="*{studentId}" class="error" style="color:red;"></span>
     </div>
 
 
     <div class="form-group">
         <label th:for="address">Address</label>
         <input class="form-control" th:field="*{address}" />
-        <span th:errors="*{address}" class="error"></span>
+        <span th:errors="*{address}" class="error" style="color:red;"></span>
     </div>
     <div class="form-group">
         <label th:for="year">Year</label>
-        <input class="form-control" th:field="*{year}" />
-        <span th:errors="*{year}" class="error"></span>
+        <select name="year">
+            <option>Select</option>
+            <option th:each="n : ${#numbers.sequence(2018,2030)}" th:value="${n}" th:text="${n}"/>
+        </select>
+        <!--<input class="form-control" th:field="*{year}" />
+        <span th:errors="*{year}" class="error"></span>-->
     </div>
     <div class="form-group">
-        <label th:for="course">Courses</label>
-        <input class="form-control" th:field="*{course}" />
-        <span th:errors="*{course}" class="error"></span>
+        <label th:for="courses">Courses</label>
+        <select th:field="*{course}">
+            <option th:each="c : ${courses}"
+                    th:value="${c.courseId}"
+                    th:text="${c.courseName}"></option>
+        </select>
+
+        <!--<input class="form-control" th:field="*{course}" />
+        <span th:errors="*{course}" class="error"></span>-->
     </div>
     <div class="form-group">
         <label th:for="grades">Grades</label>
-        <input class="form-control" th:field="*{grades}" />
-        <span th:errors="*{grades}"class="error"></span>
+        <select name="grades">
+            <option>Select</option>
+            <option th:each="n : ${#numbers.sequence(0,10)}" th:value="${n}" th:text="${n}"/>
+        </select>
+
+        <!--<input class="form-control" th:field="*{grades}" />
+        <span th:errors="*{grades}"class="error"></span>-->
     </div>
 
     <input type="submit" value="Register Student" />

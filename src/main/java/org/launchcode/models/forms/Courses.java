@@ -13,9 +13,11 @@ public class Courses {
     @GeneratedValue
     private int id;
 
+
+
     @NotNull
     @Size(min=3, max=15)
-    private String course_id;
+    private String courseId;
 
 
     @NotNull
@@ -45,13 +47,7 @@ public class Courses {
         this.id = id;
     }
 
-    public String getCourse_id() {
-        return course_id;
-    }
 
-    public void setCourse_id(String course_id) {
-        this.course_id = course_id;
-    }
 
     public String getCourseName() {
         return courseName;
@@ -77,6 +73,13 @@ public class Courses {
         this.cdesc = cdesc;
     }
 
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 
     public int getDuration() {
         return duration;

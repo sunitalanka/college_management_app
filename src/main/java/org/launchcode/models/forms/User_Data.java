@@ -15,7 +15,7 @@ public class User_Data {
 
     @NotNull
     @Size(min=3, max=15,message = "Login Id cannot be empty")
-    private String login_id;
+    private String loginId;
 
 
     @NotNull
@@ -46,12 +46,12 @@ public class User_Data {
     //   this.id = id;
     //}
 
-    public String getLogin_id() {
-        return login_id;
+    public String getLoginId() {
+        return loginId;
     }
 
-    public void setLogin_id(String login_id) {
-        this.login_id = login_id;
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
     }
 
 
