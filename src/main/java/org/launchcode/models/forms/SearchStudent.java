@@ -13,7 +13,6 @@ public class SearchStudent {
     private String course;
 
 
-
     private String firstName;
 
 

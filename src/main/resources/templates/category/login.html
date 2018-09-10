@@ -12,10 +12,13 @@
         <label th:for="name">Login Id</label>
         <input class="form-control" th:field="*{loginId}" />
         <span th:errors="*{loginId}" class="error"style="color:red;"></span>
+    </div>
+    <div>
         <lable th:for="password">Password</lable>
         <input type="password" class="form-control" th:field="*{userPwd}"/>
         <span th:errors="*{userPwd}" class="error"style="color:red;"></span>
     </div>
+
     <input type="submit" value="Login" />
 </form>
 

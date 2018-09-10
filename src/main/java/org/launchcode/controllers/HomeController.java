@@ -1,6 +1,9 @@
 package org.launchcode.controllers;
 
 //import org.apache.catalina.User;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.launchcode.models.data.*;
 import org.launchcode.models.forms.Courses;
 import org.launchcode.models.forms.StudentForm;
@@ -14,6 +17,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -41,7 +45,7 @@ public class HomeController {
     public String displayUserLogin(Model model) {
         model.addAttribute("title", "College-Management");
         model.addAttribute(new User_Data());
-        // model.addAttribute("menuList", menuDao.findAll());
+
         return "category/login";
 
     }
@@ -144,10 +148,22 @@ public class HomeController {
         return "category/search-students";
     }
 
+    @RequestMapping(value = "searchStudents-dt", method = RequestMethod.GET)
+    public String displaySearchStudentDataTable(Model model) throws JsonGenerationException, JsonMappingException, IOException {
+
+        model.addAttribute("title", "Search Student DataTable");
+        Iterable<StudentForm> studentList = studentDao.findAll();
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonStr = mapper.writeValueAsString(studentList);
+        String jsonFormattedString = jsonStr.replaceAll("\\\"", "\"");
+        model.addAttribute("studentDTList", jsonFormattedString);
+        return "category/searchStudents-dt";
+    }
+
     @RequestMapping(value = "search-students", method = RequestMethod.POST)
     public String processSearchStudent(@ModelAttribute @Valid SearchStudent nss,
                                      Errors errors, Model model) {
-        model.addAttribute("title", "Search Results");
+        model.addAttribute("title", "Search Students");
         Iterable<StudentForm> studentList = null;
         if (errors.hasErrors()) {
             return "category/search-students";
@@ -156,11 +172,34 @@ public class HomeController {
         if((nss.getStudentId().isEmpty()) && (nss.getCourse().isEmpty()) && (nss.getFirstName().isEmpty()) && (nss.getLastName().isEmpty())) {
             studentList = studentDao.findAll();
         }else{
-            studentList = ssr.findByStudentIdAndCourseAndFirstNameAndLastName(nss.getStudentId(),nss.getCourse(),nss.getFirstName(),nss.getLastName());
+
+            studentList = ssr.findByStudentIdOrCourseOrFirstNameOrLastName(nss.getStudentId(),nss.getCourse(),nss.getFirstName(),nss.getLastName());
         }
         model.addAttribute("studentList", studentList);
 
         return "category/search-students";
 
     }
+
+    @RequestMapping(value="add-student/{studentId}", method  = RequestMethod.GET)
+    public String  displayEditStudent(@PathVariable("studentId") String studentId,@ModelAttribute StudentForm ssf , Errors errors, Model model){
+
+
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Search Student");
+            model.addAttribute(new SearchStudent());
+            return "category/search-students";
+        }
+        model.addAttribute("title", "Edit Student Details");
+        if(studentId!=null){
+            ssf=ssr.findByStudentId(studentId);
+        }
+
+
+        model.addAttribute( "studentForm", ssf);
+        return "category/add-student";
+    }
+
+
+
 }

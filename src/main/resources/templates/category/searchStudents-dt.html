@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" >
+<head>
+    <title>Search Data Table</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.jqueryui.min.css"/>
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"/>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="Editor-2018-09-24-1.7.4/css/editor.dataTables.css">
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="Editor-2018-09-24-1.7.4/js/dataTables.editor.js"></script>
+    <script type="text/javascript" src="Editor-2018-09-24-1.7.4/js/dataTables.editor.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="Buttons-1.5.2/css/buttons.dataTables.css">
+    <script type="text/javascript" src="Buttons-1.5.2/js/dataTables.buttons.js"></script>
+    <script type="text/javascript" src="Buttons-1.5.2/js/dataTables.buttons.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="Select-1.2.6/css/select.dataTables.css">
+    <script type="text/javascript" src="Select-1.2.6/js/select.dataTables.js"></script>
+    <script type="text/javascript" src="Select-1.2.6/js/dataTables.select.min.js"></script>
+    <script th:inline="javascript" type="text/javascript">
+
+var myJSON = [[${studentDTList}]];
+var myObj = JSON.parse(myJSON);
+var editor;
+
+
+$(document).ready(function(){
+editor =   new $.fn.dataTable.Editor( {
+    data: myObj,
+    table: '#searchResultTblId',
+        fields: [
+        { label: 'Student Id', name: 'studentId' },
+        { label: 'First Name',  name: 'firstName'  },
+        { label: 'Last Name',  name: 'lastName'  },
+        { label: 'Address',  name: 'address'  },
+        { label: 'Year',  name: 'year'  },
+        { label: 'Course',  name: 'course'  },
+        { label: 'Grades',  name: 'grades'  },
+
+    ]
+} );
+var table = $('#searchResultTblId').DataTable({
+data: myObj,
+dom: 'Bfrtip',
+columns: [
+
+        { data: 'studentId' },
+        { data: 'firstName' },
+        { data: 'lastName' },
+        { data: 'address' },
+        { data: 'year' },
+        { data: 'course' },
+        { data: 'grades' },
+
+    ],
+    select: true,
+    buttons: [
+        { extend: 'create', editor: editor },
+        { extend: 'edit',   editor: editor },
+        {extend: 'remove',   editor: editor}
+    ]
+
+});
+});
+
+
+
+  </script>
+</head>
+<body>
+
+<table id="searchResultTblId" class="cell-border"data-page-length="25" data-order="[[ 1, &quot;asc&quot; ]]" style="border collapse;collapse; width=80%;">
+    <thead>
+    <tr>
+
+        <th>Student Id</th>
+        <th>First name</th>
+        <th>Last Name</th>
+        <th> Address</th>
+        <th>Year</th>
+        <th>Course</th>
+        <th>Grades</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+        <td>Student Id></a></td>
+        <td>First name</td>
+        <td>Last name</td>
+        <th> Address</th>
+        <th>Year</th>
+        <td>Course</td>
+        <th>Grades</th>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

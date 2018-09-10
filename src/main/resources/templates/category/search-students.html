@@ -1,10 +1,16 @@
 <!DOCTYPE html>
+
+
+
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
+
     <meta charset="UTF-8">
-    <title> Default Title</title>
 </head>
 <body>
+
+<h1 th:text="${title}">Default Title</h1>
 <nav th:replace="fragments :: navigation"></nav>
 <form method="post" style="max-width:600px;" th:object="${searchStudent}" >
     <table>
@@ -12,7 +18,7 @@
         <tr>
         <td><label th:for="studentId">Student Id</label></td>
    <td><input class="form-control" th:field="*{studentId}" /></td>
-          <span th:errors=" " class="error"style="color:red;"></span>
+          <span th:errors="*{studentId} " class="error"style="color:red;"></span>
      </div>
         </tr>
         <tr>
@@ -42,21 +48,21 @@
 </form>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <h4 th:if="${(studentList != null) && (studentList.size()==0)}">No results found!</h4>
+<div th:if="${(studentList != null) && (studentList.size()>0)}">
     <h4>Search Results:</h4>
 
-
-    <!--<p th:if="${studentList == null}">No results found!</p>-->
-
-    <table class="table">
+    <table  class="table" border="2px">
 
         <tr>
+             <th>Edit Student</th>
              <th>Student Id</th>
              <th>First name</th>
              <th>Last Name</th>
              <th>Course</th>
         </tr>
         <tr th:each="student : ${studentList}">
-
+            <td><a th:href="'add-student/' + ${student.studentId}">Edit</a></td>
                 <td th:text="${student.studentId}"></td>
                 <td th:text="${student.firstName}"></td>
                 <td th:text="${student.lastName}"></td>
@@ -65,6 +71,6 @@
         </tr>
 
     </table>
-
+</div>
 </body>
 </html>
