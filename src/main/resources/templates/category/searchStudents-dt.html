@@ -8,6 +8,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <link rel="stylesheet" type="text/css" href="Editor-2018-09-24-1.7.4/css/editor.dataTables.css">
     <script type="text/javascript" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
     <script type="text/javascript" src="Editor-2018-09-24-1.7.4/js/dataTables.editor.js"></script>
     <script type="text/javascript" src="Editor-2018-09-24-1.7.4/js/dataTables.editor.min.js"></script>
     <link rel="stylesheet" type="text/css" href="Buttons-1.5.2/css/buttons.dataTables.css">
@@ -22,11 +23,11 @@ var myJSON = [[${studentDTList}]];
 var myObj = JSON.parse(myJSON);
 var editor;
 
-
 $(document).ready(function(){
 editor =   new $.fn.dataTable.Editor( {
     data: myObj,
     table: '#searchResultTblId',
+     idSrc:  'id',
         fields: [
         { label: 'Student Id', name: 'studentId' },
         { label: 'First Name',  name: 'firstName'  },
@@ -38,10 +39,22 @@ editor =   new $.fn.dataTable.Editor( {
 
     ]
 } );
+
+$('#searchResultTblId').on( 'click', 'tbody td:not(:first-child)', function (e) {
+        editor.inline( this, {
+            buttons: { label: '&gt;', fn: function () { this.submit(); } }
+        } );
+    } );
+
 var table = $('#searchResultTblId').DataTable({
 data: myObj,
 dom: 'Bfrtip',
 columns: [
+        {  data: null,
+           defaultContent: '',
+           className: 'select-checkbox',
+            orderable: false
+        },
 
         { data: 'studentId' },
         { data: 'firstName' },
@@ -52,7 +65,8 @@ columns: [
         { data: 'grades' },
 
     ],
-    select: true,
+    select: {style:    'os',
+            selector: 'td:first-child'},
     buttons: [
         { extend: 'create', editor: editor },
         { extend: 'edit',   editor: editor },
@@ -60,9 +74,19 @@ columns: [
     ]
 
 });
+    columnDefs: [{
+         targets: '_all',
+         createdCell: function(td, cellData, rowData, row, col) {
+         $(td).attr('title', cellData);
+      }
+    }]
+
+      editor.on('postEdit', function(e, json, data) {
+       table.cells('#' + data.DT_RowId, '').every(function() {
+        $(this.node()).attr('title', this.data());
+    });
+  });
 });
-
-
 
   </script>
 </head>
@@ -71,7 +95,7 @@ columns: [
 <table id="searchResultTblId" class="cell-border"data-page-length="25" data-order="[[ 1, &quot;asc&quot; ]]" style="border collapse;collapse; width=80%;">
     <thead>
     <tr>
-
+        <th>Edit</th>
         <th>Student Id</th>
         <th>First name</th>
         <th>Last Name</th>
@@ -82,19 +106,7 @@ columns: [
 
     </tr>
     </thead>
-    <tbody>
-    <tr>
 
-        <td>Student Id></a></td>
-        <td>First name</td>
-        <td>Last name</td>
-        <th> Address</th>
-        <th>Year</th>
-        <td>Course</td>
-        <th>Grades</th>
-
-    </tr>
-    </tbody>
 </table>
 
 </body>

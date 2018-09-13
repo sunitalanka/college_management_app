@@ -41,7 +41,7 @@
             <option>Select</option>
             <option th:each="n : ${#numbers.sequence(2018,2030)}"
                     th:value="${n}"
-                    th:text="${n}"</option>
+                    th:text="${n}"></option>
 
         </select>
     </div>
@@ -50,7 +50,7 @@
         <select th:field="*{course}">
             <option th:each="c : ${courses}"
                     th:value="${c.courseId}"
-                    th:text="${c.courseName}"</option>
+                    th:text="${c.courseName}"></option>
 
         </select>
     </div>
@@ -60,7 +60,7 @@
             <option>Select</option>
             <option th:each="n : ${#numbers.sequence(0,10)}"
                     th:value="${n}"
-                    th:text="${n}"</option>
+                    th:text="${n}"></option>
 
         </select>
     </div>

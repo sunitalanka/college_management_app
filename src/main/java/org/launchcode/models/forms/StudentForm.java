@@ -42,6 +42,10 @@ public class StudentForm {
 
     private Double grades;
 
+    public StudentForm(){
+
+    }
+
     public int getId() {
        return id;
     }

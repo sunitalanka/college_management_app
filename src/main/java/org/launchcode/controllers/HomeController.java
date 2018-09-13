@@ -1,21 +1,24 @@
 package org.launchcode.controllers;
 
 //import org.apache.catalina.User;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.type.CollectionType;
 import org.launchcode.models.data.*;
 import org.launchcode.models.forms.Courses;
 import org.launchcode.models.forms.StudentForm;
 import org.launchcode.models.forms.User_Data;
 import org.launchcode.models.forms.SearchStudent;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -38,7 +41,10 @@ public class HomeController {
 
     @Autowired
     private UserDataSearchRepository udsr;
-   // private CoursesDao coursesDao;
+
+    ObjectMapper mapper = new ObjectMapper();
+
+
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     //@ResponseBody
@@ -80,6 +86,16 @@ public class HomeController {
         errors.rejectValue( "userPwd","","Invalid User or password");
         return "category/login";
 
+    }
+
+    @RequestMapping(value="logout", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request, Model model){
+        HttpSession httpSession = request.getSession();
+        httpSession.invalidate();
+        model.addAttribute("title", "College-Management");
+        model.addAttribute(new User_Data());
+
+        return "category/login";
     }
 
     @RequestMapping(value = "add-student", method = RequestMethod.GET)
@@ -153,11 +169,18 @@ public class HomeController {
 
         model.addAttribute("title", "Search Student DataTable");
         Iterable<StudentForm> studentList = studentDao.findAll();
-        ObjectMapper mapper = new ObjectMapper();
         String jsonStr = mapper.writeValueAsString(studentList);
         String jsonFormattedString = jsonStr.replaceAll("\\\"", "\"");
         model.addAttribute("studentDTList", jsonFormattedString);
         return "category/searchStudents-dt";
+    }
+
+    @RequestMapping(value="searchStudents-dt", method = RequestMethod.POST)
+    public String updateStudentDetails(@RequestBody String jsonArray, Model model ) throws IOException {
+           CollectionType javaType =mapper.getTypeFactory().constructCollectionType(List.class, StudentForm.class);
+           List<StudentForm> asList = mapper.readValue(jsonArray, javaType);
+           studentDao.saveAll(asList);
+           return "category/searchStudent-dt";
     }
 
     @RequestMapping(value = "search-students", method = RequestMethod.POST)
