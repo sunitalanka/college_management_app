@@ -42,6 +42,8 @@ public class StudentForm {
 
     private Double grades;
 
+    private Character activeStatus;
+
     public StudentForm(){
 
     }
@@ -109,6 +111,13 @@ public class StudentForm {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
+    }
+    public Character getActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(Character activeStatus) {
+        this.activeStatus = activeStatus;
     }
 
 

@@ -56,6 +56,7 @@
 
         <tr>
              <th>Edit Student</th>
+             <th>Delete Record</th>
              <th>Student Id</th>
              <th>First name</th>
              <th>Last Name</th>
@@ -63,6 +64,8 @@
         </tr>
         <tr th:each="student : ${studentList}">
             <td><a th:href="'add-student/' + ${student.studentId}">Edit</a></td>
+            <td><a th:href="'search-students/'+${student.studentId}">Delete</a></td>
+            <input type="hidden" th:value="${student.id}" />
                 <td th:text="${student.studentId}"></td>
                 <td th:text="${student.firstName}"></td>
                 <td th:text="${student.lastName}"></td>

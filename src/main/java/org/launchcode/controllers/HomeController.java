@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.Request;
+
 import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpSession;
@@ -129,9 +131,10 @@ public class HomeController {
         ud.setLastName(newStudentForm.getLastName());
         ud.setIs_admin('n');
         ud.setUserPwd("12345");
+        newStudentForm.setActiveStatus('y');
         studentDao.save(newStudentForm);
         userDao.save(ud);
-        return "category/home";
+        return "category/add-student";
 
     }
 
@@ -187,27 +190,24 @@ public class HomeController {
     public String processSearchStudent(@ModelAttribute @Valid SearchStudent nss,
                                      Errors errors, Model model) {
         model.addAttribute("title", "Search Students");
+
         Iterable<StudentForm> studentList = null;
         if (errors.hasErrors()) {
             return "category/search-students";
         }
-
         if((nss.getStudentId().isEmpty()) && (nss.getCourse().isEmpty()) && (nss.getFirstName().isEmpty()) && (nss.getLastName().isEmpty())) {
-            studentList = studentDao.findAll();
-        }else{
 
-            studentList = ssr.findByStudentIdOrCourseOrFirstNameOrLastName(nss.getStudentId(),nss.getCourse(),nss.getFirstName(),nss.getLastName());
-        }
+                studentList = ssr.findByActiveStatus('y');
+            } else {
+                studentList = ssr.findByStudentIdOrCourseOrFirstNameOrLastNameOrActiveStatus(nss.getStudentId(), nss.getCourse(), nss.getFirstName(), nss.getLastName(), 'y');
+            }
         model.addAttribute("studentList", studentList);
-
         return "category/search-students";
 
     }
 
     @RequestMapping(value="add-student/{studentId}", method  = RequestMethod.GET)
     public String  displayEditStudent(@PathVariable("studentId") String studentId,@ModelAttribute StudentForm ssf , Errors errors, Model model){
-
-
         if (errors.hasErrors()) {
             model.addAttribute("title", "Search Student");
             model.addAttribute(new SearchStudent());
@@ -217,12 +217,47 @@ public class HomeController {
         if(studentId!=null){
             ssf=ssr.findByStudentId(studentId);
         }
-
-
         model.addAttribute( "studentForm", ssf);
         return "category/add-student";
     }
 
+    @RequestMapping(value="add-student/{studentId}", method = RequestMethod.POST)
+    public String addEditedStudent(@PathVariable("studentId")String studentId, @ModelAttribute StudentForm sef,  Errors errors, Model model){
+        if (errors.hasErrors()) {
+            Iterable<Courses> cc = coursesDao.findAll();
+            model.addAttribute("courses",cc);
+            return "category/add-student/"+studentId;
+        }
+        model.addAttribute("title", "Edit Student Details");
+        studentDao.save(sef);
+        return "category/add-student";
 
+    }
+
+    @RequestMapping(value="search-students/{studentId}", method = RequestMethod.GET)
+    public String deleteStudentRecord( @PathVariable("studentId") String studentId, @ModelAttribute SearchStudent srst, Errors errors, Model model){
+        if (errors.hasErrors()){
+           model.addAttribute("title","Search Student");
+           model.addAttribute(new SearchStudent());
+           return "category/search-students";
+        }
+        StudentForm sdf = ssr.findByStudentId(studentId);
+        sdf.setActiveStatus('n');
+        studentDao.save(sdf);
+
+        return "redirect:";
+        /*Iterable<StudentForm> studentList = null;
+
+        if((srst.getStudentId().isEmpty()) && (srst.getCourse().isEmpty()) && (srst.getFirstName().isEmpty()) && (srst.getLastName().isEmpty())) {
+
+            studentList = ssr.findByActiveStatus('y');
+        } else {
+            studentList = ssr.findByStudentIdOrCourseOrFirstNameOrLastNameOrActiveStatus(srst.getStudentId(), srst.getCourse(), srst.getFirstName(), srst.getLastName(), 'y');
+        }
+
+        model.addAttribute("studentList", studentList);
+        return "category/search-students";*/
+
+    }
 
 }

@@ -17,34 +17,20 @@ public class User_Data {
     @Size(min=3, max=15,message = "Login Id cannot be empty")
     private String loginId;
 
-
     @NotNull
     @Size(min=3, max=15)
     private String userPwd;
 
-
-    // @NotNull
-    //@Size(min=3, max=15)
     private String firstName;
 
-    //@NotNull
-    // @Size(min=3, max=15)
     private String lastName;
 
-    //@NotNull
     private Character is_admin;
 
     public User_Data() {
 
     }
 
-    // public int getId() {
-    //   return id;
-    //}
-
-    //public void setId(int id) {
-    //   this.id = id;
-    //}
 
     public String getLoginId() {
         return loginId;

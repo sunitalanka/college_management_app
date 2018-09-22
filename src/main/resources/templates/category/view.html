@@ -10,11 +10,6 @@
 
 
     <div class="form-group">
-        <input type = "hidden" class="form-control" th:field="*{id}" th:readonly="${param.action != null AND param.action[0]=='edit'}"/>
-        <span th:errors="*{firstName}" class="error" style="color:red;"></span>
-    </div>
-
-    <div class="form-group">
         <label th:for="firstName">FirstName</label>
         <input class="form-control" th:field="*{firstName}" />
         <span th:errors="*{firstName}" class="error" style="color:red;"></span>
@@ -53,7 +48,6 @@
         <span th:errors="*{grades}" class="error" style="color:red;"></span>
     </div>
 
-    <input type="submit" value="Save" />
 </form>
 
 </body>

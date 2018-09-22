@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface StudentSearchRepository extends CrudRepository<StudentForm, Long> {
 
-  public List<StudentForm> findByStudentIdAndCourseAndFirstNameAndLastName(String studentId, String course, String firstName, String lastName);
-  public List<StudentForm> findByStudentIdOrCourseOrFirstNameOrLastName(String studentId, String course, String firstName, String lastName);
 
+  public List<StudentForm> findByStudentIdOrCourseOrFirstNameOrLastNameOrActiveStatus(String studentId, String course, String firstName, String lastName, Character activeStatus);
+  public List<StudentForm> findByActiveStatus(Character activeStatus);
   public StudentForm findByStudentId(String studentId);
 
 
